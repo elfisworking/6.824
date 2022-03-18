@@ -1,0 +1,501 @@
+make all --print-data-base --no-builtin-variables --no-builtin-rules --question
+# GNU Make 4.2.1
+# Built for x86_64-pc-linux-gnu
+# Copyright (C) 1988-2016 Free Software Foundation, Inc.
+# License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+# This is free software: you are free to change and redistribute it.
+# There is NO WARRANTY, to the extent permitted by law.
+
+# Make data base, printed on Sun Feb 27 19:16:46 2022
+
+# Variables
+
+# 'override' directive
+GNUMAKEFLAGS := 
+# automatic
+<D = $(patsubst %/,%,$(dir $<))
+# automatic
+?F = $(notdir $?)
+# environment
+PAPERSIZE = a4
+# environment
+DESKTOP_SESSION = ubuntu
+# default
+.SHELLFLAGS := -c
+# environment
+XDG_SESSION_CLASS = user
+# environment
+XDG_SESSION_TYPE = x11
+ 
+# environment
+VSCODE_LOG_NATIVE = false
+# automatic
+?D = $(patsubst %/,%,$(dir $?))
+# environment
+IM_CONFIG_PHASE = 1
+# automatic
+@D = $(patsubst %/,%,$(dir $@))
+# environment
+XAUTHORITY = /run/user/1000/gdm/Xauthority
+# environment
+GDMSESSION = ubuntu
+# environment
+XMODIFIERS = @im=ibus
+# makefile
+CURDIR := /home/yumin_zhang/Project/github/6.824
+# makefile
+SHELL = /bin/sh
+# environment
+VTE_VERSION = 6003
+# environment
+VSCODE_NLS_CONFIG = {"locale":"zh-cn","availableLanguages":{"*":"zh-cn"},"_languagePackId":"fa871dcc52f689d5c3b8a42d026c7d06.zh-cn","_translationsConfigFile":"/home/yumin_zhang/.config/Code/clp/fa871dcc52f689d5c3b8a42d026c7d06.zh-cn/tcf.json","_cacheRoot":"/home/yumin_zhang/.config/Code/clp/fa871dcc52f689d5c3b8a42d026c7d06.zh-cn","_resolvedLanguagePackCoreLocation":"/home/yumin_zhang/.config/Code/clp/fa871dcc52f689d5c3b8a42d026c7d06.zh-cn/c3f126316369cd610563c75b1b1725e0679adfb3","_corruptedFile":"/home/yumin_zhang/.config/Code/clp/fa871dcc52f689d5c3b8a42d026c7d06.zh-cn/corrupted.info","_languagePackSupport":true}
+# environment
+_ = /usr/bin/code
+# environment
+JOURNAL_STREAM = 8:59511
+# environment
+XDG_CONFIG_DIRS = /etc/xdg/xdg-ubuntu:/etc/xdg
+# makefile (from 'Makefile', line 1)
+MAKEFILE_LIST :=  Makefile
+# automatic
+@F = $(notdir $@)
+# environment
+GIO_LAUNCHED_DESKTOP_FILE = /usr/share/applications/code.desktop
+# environment
+USERNAME = yumin_zhang
+# environment
+MAKELEVEL := 0
+# environment
+XDG_DATA_DIRS = /usr/share/ubuntu:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop
+# environment
+VSCODE_AMD_ENTRYPOINT = vs/workbench/services/extensions/node/extensionHostProcess
+# environment
+DBUS_SESSION_BUS_ADDRESS = unix:path=/run/user/1000/bus,guid=afdc28e6cdce05a1f0a54ed16209ac5d
+# environment
+VSCODE_VERBOSE_LOGGING = true
+# environment
+MANAGERPID = 2684
+# environment
+VSCODE_IPC_HOOK_EXTHOST = /run/user/1000/vscode-ipc-61b0a8b6-942e-4fc6-8768-f9b1ed33fecd.sock
+# environment
+LC_NAME = zh_CN.UTF-8
+# environment
+VSCODE_CWD = /home/yumin_zhang/Project/github
+# environment
+GOPROXY = https://goproxy.cn,direct
+# default
+MAKE_HOST := x86_64-pc-linux-gnu
+# environment
+PATH = /home/yumin_zhang/go/bin:/home/yumin_zhang/anaconda3/bin:/home/yumin_zhang/anaconda3/condabin:/home/yumin_zhang/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+# environment
+GPG_AGENT_INFO = /run/user/1000/gnupg/S.gpg-agent:0:1
+# environment
+GJS_DEBUG_OUTPUT = stderr
+# environment
+LSCOLORS = Gxfxcxdxbxegedabagacad
+# environment
+SESSION_MANAGER = local/yumin-ubuntu:@/tmp/.ICE-unix/3302,unix/yumin-ubuntu:/tmp/.ICE-unix/3302
+# environment
+XDG_RUNTIME_DIR = /run/user/1000
+# environment
+GOPATH = /home/yumin_zhang/go
+# environment
+CONDA_PREFIX = /home/yumin_zhang/anaconda3
+# environment
+XDG_MENU_PREFIX = gnome-
+# environment
+VSCODE_LOG_STACK = false
+# environment
+VSCODE_CRASH_REPORTER_START_OPTIONS = {"companyName":"Microsoft","productName":"VSCode","submitURL":"appcenter://code?aid=fba07a4d-84bd-4fc8-a125-9640fc8ce171&uid=eb8421c5-21d7-4aa4-b5ce-762f85df26c1&iid=eb8421c5-21d7-4aa4-b5ce-762f85df26c1&sid=eb8421c5-21d7-4aa4-b5ce-762f85df26c1","uploadToServer":true}
+# environment
+INVOCATION_ID = cdb5235d66044ae88734d0cd2d637620
+# default
+.FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell archives jobserver output-sync check-symlink load
+# environment
+ELECTRON_NO_ATTACH_CONSOLE = 1
+# environment
+LS_COLORS = rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:
+# environment
+XDG_SESSION_DESKTOP = ubuntu
+# environment
+SSH_AUTH_SOCK = /run/user/1000/keyring/ssh
+# environment
+GIO_LAUNCHED_DESKTOP_FILE_PID = 834286
+# automatic
+%F = $(notdir $%)
+# environment
+DISPLAY = :1
+# environment
+CONDA_EXE = /home/yumin_zhang/anaconda3/bin/conda
+# environment
+VSCODE_PIPE_LOGGING = true
+# environment
+PWD = /home/yumin_zhang/Project/github/6.824
+# default
+.LOADED := 
+# environment
+SSH_AGENT_PID = 3267
+# environment
+ORIGINAL_XDG_CURRENT_DESKTOP = ubuntu:GNOME
+# environment
+GTK_MODULES = gail:atk-bridge
+# environment
+GOMODCACHE = /home/yumin_zhang/go/pkg/mod
+# environment
+HOME = /home/yumin_zhang
+# environment
+VSCODE_CLI = 1
+# environment
+VSCODE_CODE_CACHE_PATH = /home/yumin_zhang/.config/Code/CachedData/c3f126316369cd610563c75b1b1725e0679adfb3
+# environment
+LOGNAME = yumin_zhang
+# environment
+APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = true
+# environment
+CONDA_PROMPT_MODIFIER = 
+# automatic
++F = $(notdir $+)
+# environment
+ZSH = /home/yumin_zhang/.oh-my-zsh
+# environment
+VSCODE_HANDLES_UNCAUGHT_ERRORS = true
+# environment
+GNOME_DESKTOP_SESSION_ID = this-is-deprecated
+# automatic
+^D = $(patsubst %/,%,$(dir $^))
+# environment
+LC_TIME = zh_CN.UTF-8
+# environment
+CONDA_DEFAULT_ENV = base
+# environment
+COLORTERM = truecolor
+# default
+MAKE = $(MAKE_COMMAND)
+# default
+MAKECMDGOALS := all
+# environment
+QT_IM_MODULE = ibus
+# environment
+SHLVL = 1
+# environment
+GNOME_SHELL_SESSION_MODE = ubuntu
+# default
+MAKE_VERSION := 4.2.1
+# environment
+USER = yumin_zhang
+# environment
+LC_MONETARY = zh_CN.UTF-8
+# makefile
+.DEFAULT_GOAL := 
+# environment
+XDG_CURRENT_DESKTOP = Unity
+# environment
+LESS = -R
+# automatic
+%D = $(patsubst %/,%,$(dir $%))
+# environment
+LC_TELEPHONE = zh_CN.UTF-8
+# environment
+CONDA_SHLVL = 1
+# default
+MAKE_COMMAND := make
+# environment
+OLDPWD = /home/yumin_zhang/Project/github
+# default
+.VARIABLES := 
+# automatic
+*F = $(notdir $*)
+# environment
+LANGUAGE = en_US:en
+# environment
+VSCODE_IPC_HOOK = /run/user/1000/vscode-03c492a6-1.58.2-main.sock
+# makefile
+MAKEFLAGS = pqrR
+# environment
+MFLAGS = -pqrR
+# automatic
+*D = $(patsubst %/,%,$(dir $*))
+# environment
+BREAKPAD_DUMP_LOCATION = /home/yumin_zhang/.config/Code/exthost Crash Reports
+# automatic
++D = $(patsubst %/,%,$(dir $+))
+# environment
+GDK_BACKEND = x11
+# environment
+LC_PAPER = zh_CN.UTF-8
+# environment
+NO_AT_BRIDGE = 1
+# environment
+QT_ACCESSIBILITY = 1
+# default
+MAKEFILES := 
+# environment
+LC_NUMERIC = zh_CN.UTF-8
+# environment
+VSCODE_BROWSER_CODE_LOADING = bypassHeatCheck
+# automatic
+<F = $(notdir $<)
+# environment
+ELECTRON_RUN_AS_NODE = 1
+# environment
+LC_MEASUREMENT = zh_CN.UTF-8
+# environment
+PAGER = less
+# environment
+LC_ALL = C
+# environment
+DBUS_STARTER_BUS_TYPE = session
+# environment
+CONDA_PYTHON_EXE = /home/yumin_zhang/anaconda3/bin/python
+# environment
+GJS_DEBUG_TOPICS = JS ERROR;JS LOG
+# environment
+GNOME_TERMINAL_SCREEN = /org/gnome/Terminal/screen/73e86a16_2f4d_4c5e_844d_82477eab856d
+# automatic
+^F = $(notdir $^)
+# environment
+GNOME_TERMINAL_SERVICE = :1.229
+# default
+SUFFIXES := 
+# environment
+_CE_M = 
+# environment
+CHROME_DESKTOP = code-url-handler.desktop
+# environment
+WINDOWPATH = 2
+# default
+.INCLUDE_DIRS = /usr/include /usr/local/include /usr/include
+# environment
+LC_IDENTIFICATION = zh_CN.UTF-8
+# default
+.RECIPEPREFIX := 
+# environment
+LC_ADDRESS = zh_CN.UTF-8
+# environment
+LANG = C
+# environment
+TERM = xterm-256color
+# environment
+VSCODE_PID = 834286
+# environment
+DBUS_STARTER_ADDRESS = unix:path=/run/user/1000/bus,guid=afdc28e6cdce05a1f0a54ed16209ac5d
+# environment
+_CE_CONDA = 
+# makefile (from 'Makefile', line 6)
+LABS = " lab1 lab2a lab2b lab2c lab2d lab3a lab3b lab4a lab4b "
+# variable set hash-table stats:
+# Load=136/1024=13%, Rehash=0, Collisions=24/163=15%
+
+# Pattern-specific Variable Values
+
+# No pattern-specific variable values.
+
+# Directories
+
+# . (device 66306, inode 12453200): 8 files, no impossibilities.
+
+# 8 files, no impossibilities in 1 directories.
+
+# Implicit Rules
+
+%: check-%
+#  recipe to execute (from 'Makefile', line 9):
+	@echo "Preparing $@-handin.tar.gz"
+	@if echo $(LABS) | grep -q " $@ " ; then \
+		echo "Tarring up your submission..." ; \
+		COPYFILE_DISABLE=1 tar cvzf $@-handin.tar.gz \
+			"--exclude=src/main/pg-*.txt" \
+			"--exclude=src/main/diskvd" \
+			"--exclude=src/mapreduce/824-mrinput-*.txt" \
+			"--exclude=src/main/mr-*" \
+			"--exclude=mrtmp.*" \
+			"--exclude=src/main/diff.out" \
+			"--exclude=src/main/mrcoordinator" \
+			"--exclude=src/main/mrsequential" \
+			"--exclude=src/main/mrworker" \
+			"--exclude=*.so" \
+			Makefile src; \
+		if ! test -e api.key ; then \
+			echo "Missing $(PWD)/api.key. Please create the file with your key in it or submit the $@-handin.tar.gz via the web interface."; \
+		else \
+			echo "Are you sure you want to submit $@? Enter 'yes' to continue:"; \
+			read line; \
+			if test "$$line" != "yes" ; then echo "Giving up submission"; exit; fi; \
+			if test `stat -c "%s" "$@-handin.tar.gz" 2>/dev/null || stat -f "%z" "$@-handin.tar.gz"` -ge 20971520 ; then echo "File exceeds 20MB."; exit; fi; \
+			cat api.key | tr -d '\n' > .api.key.trimmed ; \
+			curl --silent --fail --show-error -F file=@$@-handin.tar.gz -F "key=<.api.key.trimmed" \
+			https://6824.scripts.mit.edu/2022/handin.py/upload > /dev/null || { \
+				echo ; \
+				echo "Submit seems to have failed."; \
+				echo "Please upload the tarball manually on the submission website."; } \
+		fi; \
+	else \
+		echo "Bad target $@. Usage: make [$(LABS)]"; \
+	fi
+
+check-%:
+#  recipe to execute (from 'Makefile', line 44):
+	@echo "Checking that your submission builds correctly..."
+	@./.check-build git://g.csail.mit.edu/6.824-golabs-2022 $(patsubst check-%,%,$@)
+
+# 2 implicit rules, 0 (0.0%) terminal.
+
+# Files
+
+check-Makefile:
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: 'Makefile'
+#  File is an intermediate prerequisite.
+#  File does not exist.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 44):
+	@echo "Checking that your submission builds correctly..."
+	@./.check-build git://g.csail.mit.edu/6.824-golabs-2022 $(patsubst check-%,%,$@)
+
+all: check-all
+#  Command line target.
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: 'all'
+#  File does not exist.
+#  File has been updated.
+#  Needs to be updated (-q is set).
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/3=0%
+#  recipe to execute (from 'Makefile', line 9):
+	@echo "Preparing $@-handin.tar.gz"
+	@if echo $(LABS) | grep -q " $@ " ; then \
+		echo "Tarring up your submission..." ; \
+		COPYFILE_DISABLE=1 tar cvzf $@-handin.tar.gz \
+			"--exclude=src/main/pg-*.txt" \
+			"--exclude=src/main/diskvd" \
+			"--exclude=src/mapreduce/824-mrinput-*.txt" \
+			"--exclude=src/main/mr-*" \
+			"--exclude=mrtmp.*" \
+			"--exclude=src/main/diff.out" \
+			"--exclude=src/main/mrcoordinator" \
+			"--exclude=src/main/mrsequential" \
+			"--exclude=src/main/mrworker" \
+			"--exclude=*.so" \
+			Makefile src; \
+		if ! test -e api.key ; then \
+			echo "Missing $(PWD)/api.key. Please create the file with your key in it or submit the $@-handin.tar.gz via the web interface."; \
+		else \
+			echo "Are you sure you want to submit $@? Enter 'yes' to continue:"; \
+			read line; \
+			if test "$$line" != "yes" ; then echo "Giving up submission"; exit; fi; \
+			if test `stat -c "%s" "$@-handin.tar.gz" 2>/dev/null || stat -f "%z" "$@-handin.tar.gz"` -ge 20971520 ; then echo "File exceeds 20MB."; exit; fi; \
+			cat api.key | tr -d '\n' > .api.key.trimmed ; \
+			curl --silent --fail --show-error -F file=@$@-handin.tar.gz -F "key=<.api.key.trimmed" \
+			https://6824.scripts.mit.edu/2022/handin.py/upload > /dev/null || { \
+				echo ; \
+				echo "Submit seems to have failed."; \
+				echo "Please upload the tarball manually on the submission website."; } \
+		fi; \
+	else \
+		echo "Bad target $@. Usage: make [$(LABS)]"; \
+	fi
+
+.PHONY: check-%
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+check-%:
+#  Phony target (prerequisite of .PHONY).
+#  Implicit rule search has not been done.
+#  File does not exist.
+#  File has not been updated.
+
+Makefile: check-Makefile
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: 'Makefile'
+#  Last modified 2022-02-22 21:11:59.21093377
+#  File has been updated.
+#  Successfully updated.
+#  recipe to execute (from 'Makefile', line 9):
+	@echo "Preparing $@-handin.tar.gz"
+	@if echo $(LABS) | grep -q " $@ " ; then \
+		echo "Tarring up your submission..." ; \
+		COPYFILE_DISABLE=1 tar cvzf $@-handin.tar.gz \
+			"--exclude=src/main/pg-*.txt" \
+			"--exclude=src/main/diskvd" \
+			"--exclude=src/mapreduce/824-mrinput-*.txt" \
+			"--exclude=src/main/mr-*" \
+			"--exclude=mrtmp.*" \
+			"--exclude=src/main/diff.out" \
+			"--exclude=src/main/mrcoordinator" \
+			"--exclude=src/main/mrsequential" \
+			"--exclude=src/main/mrworker" \
+			"--exclude=*.so" \
+			Makefile src; \
+		if ! test -e api.key ; then \
+			echo "Missing $(PWD)/api.key. Please create the file with your key in it or submit the $@-handin.tar.gz via the web interface."; \
+		else \
+			echo "Are you sure you want to submit $@? Enter 'yes' to continue:"; \
+			read line; \
+			if test "$$line" != "yes" ; then echo "Giving up submission"; exit; fi; \
+			if test `stat -c "%s" "$@-handin.tar.gz" 2>/dev/null || stat -f "%z" "$@-handin.tar.gz"` -ge 20971520 ; then echo "File exceeds 20MB."; exit; fi; \
+			cat api.key | tr -d '\n' > .api.key.trimmed ; \
+			curl --silent --fail --show-error -F file=@$@-handin.tar.gz -F "key=<.api.key.trimmed" \
+			https://6824.scripts.mit.edu/2022/handin.py/upload > /dev/null || { \
+				echo ; \
+				echo "Submit seems to have failed."; \
+				echo "Please upload the tarball manually on the submission website."; } \
+		fi; \
+	else \
+		echo "Bad target $@. Usage: make [$(LABS)]"; \
+	fi
+
+# Not a target:
+.DEFAULT:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+check-all:
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: 'all'
+#  File is an intermediate prerequisite.
+#  File does not exist.
+#  File has been updated.
+#  Needs to be updated (-q is set).
+# automatic
+# @ := check-all
+# automatic
+# % := 
+# automatic
+# * := all
+# automatic
+# + := 
+# automatic
+# | := 
+# automatic
+# < := 
+# automatic
+# ^ := 
+# automatic
+# ? := 
+# variable set hash-table stats:
+ 
+# Load=8/32=25%, Rehash=0, Collisions=1/12=8%
+#  recipe to execute (from 'Makefile', line 44):
+	@echo "Checking that your submission builds correctly..."
+	@./.check-build git://g.csail.mit.edu/6.824-golabs-2022 $(patsubst check-%,%,$@)
+
+# files hash-table stats:
+# Load=8/1024=1%, Rehash=0, Collisions=0/33=0%
+# VPATH Search Paths
+
+# No 'vpath' search paths.
+
+# No general ('VPATH' variable) search path.
+
+# strcache buffers: 1 (0) / strings = 18 / storage = 152 B / avg = 8 B
+# current buf: size = 8162 B / used = 152 B / count = 18 / avg = 8 B
+
+# strcache performance: lookups = 33 / hit rate = 45%
+# hash-table stats:
+# Load=18/8192=0%, Rehash=0, Collisions=1/33=3%
+# Finished Make data base on Sun Feb 27 19:16:46 2022
+
+ 

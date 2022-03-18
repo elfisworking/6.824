@@ -1,0 +1,13 @@
+make --dry-run --always-make --keep-going --print-directory
+make: Entering directory '/home/yumin_zhang/Project/github/6.824'
+Checking that your submission builds correctly...
+ 
+unknown lab: Makefile
+ 
+make: *** [Makefile:45: check-Makefile] Error 1
+make: Failed to remake makefile 'Makefile'.
+make: *** No targets specified and no makefile found.  Stop.
+ 
+rm check-Makefile
+make: Leaving directory '/home/yumin_zhang/Project/github/6.824'
+ 

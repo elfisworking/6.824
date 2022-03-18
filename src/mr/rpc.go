@@ -23,6 +23,45 @@ type ExampleReply struct {
 }
 
 // Add your RPC definitions here.
+type NoReply struct {
+
+}
+type NoArgs struct {
+
+}
+
+type TaskState int
+const (
+	MapState TaskState = 0
+	ReduceState TaskState = 1
+	StopState TaskState = 2
+	WaitState TaskState = 3
+)
+type WorkerTask struct {
+	MapID int
+	MapNUm int
+	ReduceID int
+	ReduceNum int
+	MapTaskCnt int
+	ReduceTaskCnt int
+	State TaskState
+	FileName string
+	MapFunction func(string, string) []KeyValue
+	ReduceFunction func(string, []string) string
+}
+
+type WorkerReportArgs struct {
+	MapID int
+	ReduceID int
+	State TaskState
+	IsSuccess bool
+	MapTaskCnt int
+	ReduceTaskCnt int
+}
+
+type MasterDoneReply struct {
+	Done bool
+}
 
 
 // Cook up a unique-ish UNIX-domain socket name
