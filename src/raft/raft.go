@@ -50,6 +50,11 @@ type ApplyMsg struct {
 	SnapshotIndex int
 }
 
+type LogEntry struct {
+	Index int
+	Term int
+	Command interface{}
+}
 //
 // A Go object implementing a single Raft peer.
 //
@@ -59,12 +64,21 @@ type Raft struct {
 	persister *Persister          // Object to hold this peer's persisted state
 	me        int                 // this peer's index into peers[]
 	dead      int32               // set by Kill()
+	currentTerm  int
+	log       []int  // logs
 
 	// Your data here (2A, 2B, 2C).
 	// Look at the paper's Figure 2 for a description of what
 	// state a Raft server must maintain.
 
 }
+
+type State string
+const (
+	Leader State = "leader"
+	Candidate State = "candidate"
+	Follower State = "follower"
+)
 
 // return currentTerm and whether this server
 // believes it is the leader.
