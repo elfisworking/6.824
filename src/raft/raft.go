@@ -18,14 +18,14 @@ package raft
 //
 
 import (
-//	"bytes"
+	//	"bytes"
 	"sync"
 	"sync/atomic"
+	"time"
 
-//	"6.824/labgob"
+	//	"6.824/labgob"
 	"6.824/labrpc"
 )
-
 
 //
 // as each Raft peer becomes aware that successive log entries are
@@ -51,7 +51,6 @@ type ApplyMsg struct {
 }
 
 type LogEntry struct {
-	Index int
 	Term int
 	Command interface{}
 }
@@ -64,8 +63,21 @@ type Raft struct {
 	persister *Persister          // Object to hold this peer's persisted state
 	me        int                 // this peer's index into peers[]
 	dead      int32               // set by Kill()
+	// identity leader candidate or follower
+	identity State 
+	// Persistent State
 	currentTerm  int
-	log       []int  // logs
+	votedFor int
+	log       []LogEntry  // logs
+	// volatile
+	commitIndex int
+	lastApplied int
+	nextIndex []int
+	matchIndex []int
+	// timer
+	timeout int
+	electionTimer *time.Timer
+
 
 	// Your data here (2A, 2B, 2C).
 	// Look at the paper's Figure 2 for a description of what
@@ -84,10 +96,10 @@ const (
 // believes it is the leader.
 func (rf *Raft) GetState() (int, bool) {
 
-	var term int
-	var isleader bool
+	rf.mu.Lock()
+	defer rf.mu.Unlock()
 	// Your code here (2A).
-	return term, isleader
+	return rf.currentTerm, (rf.identity == Leader)
 }
 
 //
@@ -156,6 +168,11 @@ func (rf *Raft) Snapshot(index int, snapshot []byte) {
 // field names must start with capital letters!
 //
 type RequestVoteArgs struct {
+	Term int
+	CandidateId int
+	LastLogIndex int
+	LastLogTerm int
+	// done
 	// Your data here (2A, 2B).
 }
 
@@ -164,13 +181,45 @@ type RequestVoteArgs struct {
 // field names must start with capital letters!
 //
 type RequestVoteReply struct {
+	Term int
+	VoteGranted bool
 	// Your data here (2A).
 }
+
+func (rf *Raft) isCandidate(args *RequestVoteArgs) bool{
+	lastIndex := len(rf.log) - 1
+	if args.LastLogTerm > rf.log[lastIndex].Term {
+		return true
+	}
+	if args.LastLogTerm == rf.log[lastIndex].Term && args.LastLogIndex >= lastIndex {
+		return true
+	}
+	return false
+}
+
 
 //
 // example RequestVote RPC handler.
 //
 func (rf *Raft) RequestVote(args *RequestVoteArgs, reply *RequestVoteReply) {
+	rf.lock("RV handler lock")
+	reply.Term = rf.currentTerm
+	if args.Term < rf.currentTerm {
+		reply.VoteGranted = false
+		rf.unlock("RV handler unlock")
+		return 
+	}
+	if args.Term > rf.currentTerm {
+		rf.reveivedLargerTerm(args.Term)
+	}
+	if(rf.votedFor == -1 || rf.votedFor == args.CandidateId)  && rf.isCandidate(args){
+		reply.VoteGranted = true
+		rf.votedFor = args.CandidateId
+	} else {
+		reply.VoteGranted = false
+	}
+	rf.unlock("RV handler unlock")
+	// undone
 	// Your code here (2A, 2B).
 }
 
@@ -258,8 +307,9 @@ func (rf *Raft) killed() bool {
 // The ticker go routine starts a new election if this peer hasn't received
 // heartsbeats recently.
 func (rf *Raft) ticker() {
-	for rf.killed() == false {
-
+	for !rf.killed() {
+		<- rf.electionTimer.C
+		go rf.startElection()
 		// Your code here to check if a leader election should
 		// be started and to randomize sleeping time using
 		// time.Sleep().
@@ -284,11 +334,21 @@ func Make(peers []*labrpc.ClientEnd, me int,
 	rf.peers = peers
 	rf.persister = persister
 	rf.me = me
+	rf.timeout = 300
+	rf.identity = Follower
+	rf.currentTerm = 0
+	rf.votedFor = -1
+	rf.log = make([]LogEntry, 1)
+	rf.log[0] = LogEntry{Term: 0}
+	rf.commitIndex = 0
+	rf.lastApplied = 0
 
 	// Your initialization code here (2A, 2B, 2C).
+	
 
 	// initialize from state persisted before a crash
 	rf.readPersist(persister.ReadRaftState())
+	rf.electionTimer = time.NewTimer(rf.calDuration())
 
 	// start ticker goroutine to start elections
 	go rf.ticker()
