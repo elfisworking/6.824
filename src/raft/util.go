@@ -45,6 +45,37 @@ func (rf * Raft) changeIdentity(identity State) {
 		rf.resetElectionTimer()
 	}
 }
+func (rf *Raft) checkConsistency(args * AppendEntirsArgs, reply *AppendEntirsReply) bool {
+	if rf.absoluteLength() <= args.PrevLogIndex {
+		reply.Success = false
+		reply.NewNextIndex =rf.absoluteLength()
+		return false
+	} else if rf.findLogTermByAbsoulteIndex(args.PrevLogIndex) != args.PrevLigTerm {
+		reply.Success = false
+		reply.NewNextIndex = rf.findBadIndex(rf.findLogTermByAbsoulteIndex(args.PrevLogIndex))
+	}
+}
+
+func (rf *Raft) findBadIndex(badTerm int) int {
+
+}
+
+func (rf *Raft)relatvieIndex(absoluteIndex int) int {
+	// snapshot
+	// return absoluteIndex - rf.lastInstallIndex + 1
+	return absoluteIndex
+}
+
+func (rf *Raft) findLogTermByAbsoulteIndex(absoluteIndex int) int {
+	return rf.log[rf.relatvieIndex(absoluteIndex)].Term
+}
+
+
+
+func (rf *Raft) absoluteLength() int {
+	// may there has problem
+	return len(rf.log)
+}
 
 func (rf *Raft) reveivedLargerTerm(largeTerm int) {
 	rf.currentTerm = largeTerm

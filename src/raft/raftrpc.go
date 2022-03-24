@@ -11,4 +11,5 @@ type AppendEntirsArgs struct {
 type AppendEntirsReply struct {
 	Term int
 	Success bool
+	NewNextIndex int
 }

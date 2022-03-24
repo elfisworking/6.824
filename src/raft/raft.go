@@ -25,6 +25,7 @@ import (
 
 	//	"6.824/labgob"
 	"6.824/labrpc"
+	"github.com/gogo/protobuf/test/indeximport-issue72/index"
 )
 
 //
@@ -273,9 +274,18 @@ func (rf *Raft) sendRequestVote(server int, args *RequestVoteArgs, reply *Reques
 // the leader.
 //
 func (rf *Raft) Start(command interface{}) (int, int, bool) {
-	index := -1
-	term := -1
+	if rf.killed() {
+		return -1, -1, false
+	}
 	isLeader := true
+	rf.lock("start lock")
+	defer rf.unlock("start unlock")
+	if rf.identity != Leader {
+		isLeader = false
+	}
+	index := len(rf.log)
+	term := rf.currentTerm
+	rf.log = append(rf.log, LogEntry{Command: command, Term: rf.currentTerm})
 
 	// Your code here (2B).
 

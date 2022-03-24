@@ -33,6 +33,9 @@ func (rf *Raft) sendRegularHeartBeats() {
 					rf.reveivedLargerTerm(args.Term)
 				}
 				rf.unlock("heart beat change term unlock")
+				if !reply.Success {
+					go rf.forceUpdate(index)
+				}
 
 
 			}(index)
@@ -41,6 +44,21 @@ func (rf *Raft) sendRegularHeartBeats() {
 	}
 }
 
+
+// sycn leader and follower
+func (rf *Raft) forceUpdate(index int ) {
+	for !rf.killed() {
+		if rf.identity != Leader {
+			break
+		}
+		logLength := len(rf.log)
+		nextIndex := rf.nextIndex[index]
+		args := AppendEntirsArgs{
+			Term: rf.currentTerm,
+			// pass
+		}
+	}
+} 
 
 func (rf *Raft) sendAppendEntries(index int, args *AppendEntirsArgs, reply *AppendEntirsReply) bool {
 	ok := rf.peers[index].Call("Raft.AppendEntrisHandler", args, reply)
