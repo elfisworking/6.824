@@ -25,7 +25,6 @@ import (
 
 	//	"6.824/labgob"
 	"6.824/labrpc"
-	"github.com/gogo/protobuf/test/indeximport-issue72/index"
 )
 
 //
@@ -78,6 +77,9 @@ type Raft struct {
 	// timer
 	timeout int
 	electionTimer *time.Timer
+
+	// 
+	applyCh chan ApplyMsg
 
 
 	// Your data here (2A, 2B, 2C).
@@ -188,11 +190,11 @@ type RequestVoteReply struct {
 }
 
 func (rf *Raft) isCandidate(args *RequestVoteArgs) bool{
-	lastIndex := len(rf.log) - 1
+	lastIndex := rf.absoluteLength() - 1
 	if args.LastLogTerm > rf.log[lastIndex].Term {
 		return true
 	}
-	if args.LastLogTerm == rf.log[lastIndex].Term && args.LastLogIndex >= lastIndex {
+	if args.LastLogTerm == rf.findLogTermByAbsoulteIndex(lastIndex) && args.LastLogIndex >= lastIndex {
 		return true
 	}
 	return false
@@ -277,13 +279,14 @@ func (rf *Raft) Start(command interface{}) (int, int, bool) {
 	if rf.killed() {
 		return -1, -1, false
 	}
-	isLeader := true
+
 	rf.lock("start lock")
 	defer rf.unlock("start unlock")
 	if rf.identity != Leader {
-		isLeader = false
+		return -1, rf.currentTerm, false
 	}
-	index := len(rf.log)
+	isLeader := true
+	index := rf.absoluteLength()
 	term := rf.currentTerm
 	rf.log = append(rf.log, LogEntry{Command: command, Term: rf.currentTerm})
 
@@ -344,6 +347,8 @@ func Make(peers []*labrpc.ClientEnd, me int,
 	rf.peers = peers
 	rf.persister = persister
 	rf.me = me
+	rf.applyCh = applyCh
+
 	rf.timeout = 300
 	rf.identity = Follower
 	rf.currentTerm = 0

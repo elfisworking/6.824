@@ -37,6 +37,15 @@ func (rf * Raft) changeIdentity(identity State) {
 		rf.resetElectionTimer()
 	case Leader:
 		rf.identity = Leader
+		rf.nextIndex = make([]int, len(rf.peers))
+		rf.matchIndex = make([]int, len(rf.peers))
+		for index, _ := range rf.peers {
+			if index == rf.me {
+				continue
+			}
+			rf.nextIndex[index] = rf.absoluteLength()
+			rf.matchIndex[index] = 0
+		}
 		// stop election timer
 		rf.electionTimer.Stop()
 		go rf.sendRegularHeartBeats()
@@ -51,18 +60,39 @@ func (rf *Raft) checkConsistency(args * AppendEntirsArgs, reply *AppendEntirsRep
 		reply.NewNextIndex =rf.absoluteLength()
 		return false
 	} else if rf.findLogTermByAbsoulteIndex(args.PrevLogIndex) != args.PrevLigTerm {
+		// judge same index and term
 		reply.Success = false
-		reply.NewNextIndex = rf.findBadIndex(rf.findLogTermByAbsoulteIndex(args.PrevLogIndex))
+		// reply.NewNextIndex = rf.findBadIndex(rf.findLogTermByAbsoulteIndex(args.PrevLogIndex))
+		reply.NewNextIndex = args.PrevLogIndex - 1
+		return false
 	}
+	return true
 }
 
-func (rf *Raft) findBadIndex(badTerm int) int {
+// func (rf *Raft) findBadIndex(badTerm int) int {
+// 	for index, entry := range rf.log {
+// 		if entry.Term == badTerm {
+// 			return rf.absoluteIndex(index)
+// 		}
+// 	}
+// 	return -1
+// }
 
+func (rf *Raft) absoluteLength() int {
+	// may there has problem
+	return len(rf.log)
 }
+ 
+
+func (rf * Raft) absoluteIndex(relativeIndex int) int {
+	// return relativeIndex + rf.lastInstalledIndex + 1
+	return relativeIndex
+}
+
 
 func (rf *Raft)relatvieIndex(absoluteIndex int) int {
 	// snapshot
-	// return absoluteIndex - rf.lastInstallIndex + 1
+	// return absoluteIndex - rf.lastInstallIndex - 1
 	return absoluteIndex
 }
 
@@ -72,10 +102,6 @@ func (rf *Raft) findLogTermByAbsoulteIndex(absoluteIndex int) int {
 
 
 
-func (rf *Raft) absoluteLength() int {
-	// may there has problem
-	return len(rf.log)
-}
 
 func (rf *Raft) reveivedLargerTerm(largeTerm int) {
 	rf.currentTerm = largeTerm
@@ -96,4 +122,18 @@ func (rf * Raft) unlock(format string, a...interface {}) {
 func (rf * Raft) logger(format string, a...interface{}) {
 	DPrintf("me: %d, identity:%v, term: %d, leader:%d\n", rf.me, rf.identity, rf.currentTerm, rf.votedFor)
 	DPrintf(format, a...)
+}
+
+func min(a int, b int) int {
+	if a > b {
+		return b
+	} 
+	return a
+}
+
+func max(a int, b int) int {
+	if a > b {
+		return a
+	}
+	return b
 }
