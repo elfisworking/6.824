@@ -73,6 +73,7 @@ func (rf *Raft) forceUpdate(index int ) {
 		if reply.Term > args.Term {
 			rf.lock("force update change term, locking")
 			if rf.currentTerm < reply.Term {
+				// has persist
 				rf.reveivedLargerTerm(reply.Term)
 				rf.unlock("force update change term, unlocking")
 				return 

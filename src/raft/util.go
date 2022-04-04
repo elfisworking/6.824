@@ -34,6 +34,7 @@ func (rf * Raft) changeIdentity(identity State) {
 		rf.currentTerm += 1
 		rf.votedFor = rf.me // vote for me
 		rf.identity = Candidate
+		rf.persist()
 		rf.resetElectionTimer()
 	case Leader:
 		rf.identity = Leader
@@ -62,38 +63,39 @@ func (rf *Raft) checkConsistency(args * AppendEntirsArgs, reply *AppendEntirsRep
 	} else if rf.findLogTermByAbsoulteIndex(args.PrevLogIndex) != args.PrevLigTerm {
 		// judge same index and term
 		reply.Success = false
-		// reply.NewNextIndex = rf.findBadIndex(rf.findLogTermByAbsoulteIndex(args.PrevLogIndex))
-		reply.NewNextIndex = args.PrevLogIndex - 1
+		// next line is needed. PrevLogIndex - 1 is enough for lab2B but maybe fail in lab2C
+		reply.NewNextIndex = rf.findBadIndex(rf.findLogTermByAbsoulteIndex(args.PrevLogIndex))
+		// reply.NewNextIndex = args.PrevLogIndex - 1
 		return false
 	}
 	return true
 }
 
-// func (rf *Raft) findBadIndex(badTerm int) int {
-// 	for index, entry := range rf.log {
-// 		if entry.Term == badTerm {
-// 			return rf.absoluteIndex(index)
-// 		}
-// 	}
-// 	return -1
-// }
+func (rf *Raft) findBadIndex(badTerm int) int {
+	for index, entry := range rf.log {
+		if entry.Term == badTerm {
+			return rf.absoluteIndex(index)
+		}
+	}
+	return -1
+}
 
 func (rf *Raft) absoluteLength() int {
 	// may there has problem
-	return len(rf.log)
+	return len(rf.log) + rf.lastIncludedIndex + 1
 }
  
 
 func (rf * Raft) absoluteIndex(relativeIndex int) int {
 	// return relativeIndex + rf.lastInstalledIndex + 1
-	return relativeIndex
+	return relativeIndex + rf.lastIncludedIndex + 1
 }
 
 
 func (rf *Raft)relatvieIndex(absoluteIndex int) int {
 	// snapshot
 	// return absoluteIndex - rf.lastInstallIndex - 1
-	return absoluteIndex
+	return absoluteIndex - rf.lastIncludedIndex - 1
 }
 
 func (rf *Raft) findLogTermByAbsoulteIndex(absoluteIndex int) int {
@@ -106,6 +108,7 @@ func (rf *Raft) findLogTermByAbsoulteIndex(absoluteIndex int) int {
 func (rf *Raft) reveivedLargerTerm(largeTerm int) {
 	rf.currentTerm = largeTerm
 	rf.votedFor = -1
+	rf.persist()
 	rf.changeIdentity(Follower)
 }
 

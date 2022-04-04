@@ -19,11 +19,13 @@ package raft
 
 import (
 	//	"bytes"
+	"bytes"
 	"sync"
 	"sync/atomic"
 	"time"
 
 	//	"6.824/labgob"
+	"6.824/labgob"
 	"6.824/labrpc"
 )
 
@@ -81,6 +83,13 @@ type Raft struct {
 	// 
 	applyCh chan ApplyMsg
 
+	// snapshot
+	lastIncludedIndex int
+	lastIncludedTerm int
+	snapshot []byte
+	done bool
+
+
 
 	// Your data here (2A, 2B, 2C).
 	// Look at the paper's Figure 2 for a description of what
@@ -119,6 +128,17 @@ func (rf *Raft) persist() {
 	// e.Encode(rf.yyy)
 	// data := w.Bytes()
 	// rf.persister.SaveRaftState(data)
+	w := new(bytes.Buffer)
+	e := labgob.NewEncoder(w)
+	e.Encode(rf.currentTerm)
+	e.Encode(rf.votedFor)
+	e.Encode(rf.log)
+	// snapshot
+	e.Encode(rf.lastIncludedIndex)
+	e.Encode(rf.lastIncludedTerm)
+	e.Encode(rf.snapshot)
+	data := w.Bytes()
+	rf.persister.SaveRaftState(data)
 }
 
 
@@ -128,6 +148,29 @@ func (rf *Raft) persist() {
 func (rf *Raft) readPersist(data []byte) {
 	if data == nil || len(data) < 1 { // bootstrap without any state?
 		return
+	}
+	r := bytes.NewBuffer(data)
+	d := labgob.NewDecoder(r)
+	var currentTerm int
+	var votedFor int
+	var log []LogEntry
+	// snapshot
+	var lastIncludedIndex int
+	var lastIncludedTerm int
+	var snapshot []byte
+	var commitIndex  int
+	if d.Decode(&currentTerm) != nil || d.Decode(&votedFor) != nil || d.Decode(&log) != nil || d.Decode(&lastIncludedIndex) != nil || 
+	d.Decode(&lastIncludedTerm) != nil || d.Decode(&snapshot) != nil || d.Decode(&commitIndex) != nil{
+		panic("read Persist error!")
+	} else {
+		rf.currentTerm = currentTerm
+		rf.votedFor = votedFor
+		rf.log = log
+		// snapshot
+		rf.snapshot = snapshot
+		rf.lastIncludedIndex = lastIncludedIndex
+		rf.lastIncludedTerm = lastIncludedTerm
+		rf.commitIndex =commitIndex
 	}
 	// Your code here (2C).
 	// Example:
@@ -162,6 +205,20 @@ func (rf *Raft) CondInstallSnapshot(lastIncludedTerm int, lastIncludedIndex int,
 // that index. Raft should now trim its log as much as possible.
 func (rf *Raft) Snapshot(index int, snapshot []byte) {
 	// Your code here (2D).
+	rf.lock("snapshot fucntion lock")
+	defer rf.lock("snapshot function unlock")
+	rf.snapshot = snapshot
+	rf.lastIncludedIndex = index
+	relIndex := rf.relatvieIndex(index)
+	rf.lastIncludedTerm = rf.log[relIndex].Term
+	if relIndex == len(rf.log) - 1 {
+		rf.log = make([]LogEntry, 0)
+	} else {
+		rf.log = rf.log[relIndex + 1 : ]
+	}
+	// 持久化
+	rf.persist()
+
 
 }
 
@@ -218,6 +275,7 @@ func (rf *Raft) RequestVote(args *RequestVoteArgs, reply *RequestVoteReply) {
 	if(rf.votedFor == -1 || rf.votedFor == args.CandidateId)  && rf.isCandidate(args){
 		reply.VoteGranted = true
 		rf.votedFor = args.CandidateId
+		rf.persist()
 	} else {
 		reply.VoteGranted = false
 	}
@@ -289,7 +347,7 @@ func (rf *Raft) Start(command interface{}) (int, int, bool) {
 	index := rf.absoluteLength()
 	term := rf.currentTerm
 	rf.log = append(rf.log, LogEntry{Command: command, Term: rf.currentTerm})
-
+	rf.persist()
 	// Your code here (2B).
 
 
@@ -364,7 +422,6 @@ func Make(peers []*labrpc.ClientEnd, me int,
 	// initialize from state persisted before a crash
 	rf.readPersist(persister.ReadRaftState())
 	rf.electionTimer = time.NewTimer(rf.calDuration())
-
 	// start ticker goroutine to start elections
 	go rf.ticker()
 

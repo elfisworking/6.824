@@ -8,6 +8,7 @@ func (rf *Raft) AppendEntrisHandler(args * AppendEntirsArgs, reply * AppendEntir
 	if args.Term > rf.currentTerm {
 		rf.currentTerm = args.Term
 		rf.votedFor = -1
+		// rf.persist()
 		rf.changeIdentity(Follower)
 	}
 	reply.Term = rf.currentTerm
@@ -31,7 +32,10 @@ func (rf *Raft) AppendEntrisHandler(args * AppendEntirsArgs, reply * AppendEntir
 			// 将绝对路径转化为follower的相对路径
 			relAppendIndex := rf.relatvieIndex(absAppendIndex)
 			rf.log = rf.log[:relAppendIndex]
+			// this is important
+			rf.persist()
 			rf.log = append(rf.log, args.Entrirs...) 
+			rf.persist()
 		}
 	}
 	// append 里面附带了已经commit的信息，这里也需要同步以下
