@@ -51,10 +51,14 @@ func (rf *Raft) forceUpdate(index int ) {
 		rf.lock("force update lock, updating server %d", index)
 		if rf.identity != Leader {
 			rf.unlock("force update lock, updating server %d", index)
-			break
+			return
 		}
 		logLength := rf.absoluteLength()
 		nextIndex := rf.nextIndex[index] // absolute index
+		if nextIndex <= rf.lastIncludedIndex {
+			rf.sendInstall(index)
+			return 
+		}
 		args := AppendEntirsArgs{
 			Term: rf.currentTerm,
 			LeaderID: rf.me,
@@ -100,7 +104,7 @@ func (rf *Raft) sendAppendEntries(index int, args *AppendEntirsArgs, reply *Appe
 	return ok
 }
 
-
+// has checked
 func (rf *Raft) checkMatchIndex() {
 	rf.matchIndex[rf.me] = rf.absoluteLength() - 1
 	threshold := len(rf.peers) / 2

@@ -2,14 +2,18 @@ package raft
 
 
 // start election
+// has checked 
 func (rf *Raft) startElection() {
+	if rf.killed() {
+		return 
+	}
 	rf.lock("start election lock")
 	rf.changeIdentity(Candidate)
 	args := RequestVoteArgs{
 		Term: rf.currentTerm,
 		CandidateId: rf.me,
-		LastLogIndex: len(rf.log) - 1,
-		LastLogTerm: rf.log[len(rf.log) - 1].Term,
+		LastLogIndex: rf.absoluteLength() - 1,
+		LastLogTerm: rf.findLogTermByAbsoulteIndex(rf.absoluteLength() - 1),
 	}
 	rf.unlock("start election unlcok")
 

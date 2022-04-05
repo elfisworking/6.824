@@ -106,6 +106,7 @@ const (
 
 // return currentTerm and whether this server
 // believes it is the leader.
+// has checked
 func (rf *Raft) GetState() (int, bool) {
 
 	rf.mu.Lock()
@@ -119,6 +120,7 @@ func (rf *Raft) GetState() (int, bool) {
 // where it can later be retrieved after a crash and restart.
 // see paper's Figure 2 for a description of what should be persistent.
 //
+// has checked
 func (rf *Raft) persist() {
 	// Your code here (2C).
 	// Example:
@@ -137,6 +139,7 @@ func (rf *Raft) persist() {
 	e.Encode(rf.lastIncludedIndex)
 	e.Encode(rf.lastIncludedTerm)
 	e.Encode(rf.snapshot)
+	e.Encode(rf.commitIndex)
 	data := w.Bytes()
 	rf.persister.SaveRaftState(data)
 }
@@ -145,6 +148,7 @@ func (rf *Raft) persist() {
 //
 // restore previously persisted state.
 //
+// has checked
 func (rf *Raft) readPersist(data []byte) {
 	if data == nil || len(data) < 1 { // bootstrap without any state?
 		return
@@ -170,7 +174,7 @@ func (rf *Raft) readPersist(data []byte) {
 		rf.snapshot = snapshot
 		rf.lastIncludedIndex = lastIncludedIndex
 		rf.lastIncludedTerm = lastIncludedTerm
-		rf.commitIndex =commitIndex
+		rf.commitIndex = commitIndex
 	}
 	// Your code here (2C).
 	// Example:
@@ -187,40 +191,6 @@ func (rf *Raft) readPersist(data []byte) {
 	// }
 }
 
-
-//
-// A service wants to switch to snapshot.  Only do so if Raft hasn't
-// have more recent info since it communicate the snapshot on applyCh.
-//
-func (rf *Raft) CondInstallSnapshot(lastIncludedTerm int, lastIncludedIndex int, snapshot []byte) bool {
-
-	// Your code here (2D).
-
-	return true
-}
-
-// the service says it has created a snapshot that has
-// all info up to and including index. this means the
-// service no longer needs the log through (and including)
-// that index. Raft should now trim its log as much as possible.
-func (rf *Raft) Snapshot(index int, snapshot []byte) {
-	// Your code here (2D).
-	rf.lock("snapshot fucntion lock")
-	defer rf.lock("snapshot function unlock")
-	rf.snapshot = snapshot
-	rf.lastIncludedIndex = index
-	relIndex := rf.relatvieIndex(index)
-	rf.lastIncludedTerm = rf.log[relIndex].Term
-	if relIndex == len(rf.log) - 1 {
-		rf.log = make([]LogEntry, 0)
-	} else {
-		rf.log = rf.log[relIndex + 1 : ]
-	}
-	// 持久化
-	rf.persist()
-
-
-}
 
 
 //
@@ -245,10 +215,10 @@ type RequestVoteReply struct {
 	VoteGranted bool
 	// Your data here (2A).
 }
-
+// has checked
 func (rf *Raft) isCandidate(args *RequestVoteArgs) bool{
 	lastIndex := rf.absoluteLength() - 1
-	if args.LastLogTerm > rf.log[lastIndex].Term {
+	if args.LastLogTerm > rf.findLogTermByAbsoulteIndex(lastIndex) {
 		return true
 	}
 	if args.LastLogTerm == rf.findLogTermByAbsoulteIndex(lastIndex) && args.LastLogIndex >= lastIndex {
@@ -261,6 +231,7 @@ func (rf *Raft) isCandidate(args *RequestVoteArgs) bool{
 //
 // example RequestVote RPC handler.
 //
+// has checked()
 func (rf *Raft) RequestVote(args *RequestVoteArgs, reply *RequestVoteReply) {
 	rf.lock("RV handler lock")
 	reply.Term = rf.currentTerm
@@ -399,6 +370,7 @@ func (rf *Raft) ticker() {
 // Make() must return quickly, so it should start goroutines
 // for any long-running work.
 //
+// has checked
 func Make(peers []*labrpc.ClientEnd, me int,
 	persister *Persister, applyCh chan ApplyMsg) *Raft {
 	rf := &Raft{}
@@ -417,8 +389,9 @@ func Make(peers []*labrpc.ClientEnd, me int,
 	rf.lastApplied = 0
 
 	// Your initialization code here (2A, 2B, 2C).
-	
-
+	rf.lastIncludedIndex = -1
+	rf.lastIncludedTerm = 0
+	rf.done = false
 	// initialize from state persisted before a crash
 	rf.readPersist(persister.ReadRaftState())
 	rf.electionTimer = time.NewTimer(rf.calDuration())

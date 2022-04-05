@@ -6,7 +6,7 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Thu Mar 24 14:36:41 2022
+# Make data base, printed on Mon Apr  4 10:08:13 2022
 
 # Variables
 
@@ -18,6 +18,7 @@ GNUMAKEFLAGS :=
 ?F = $(notdir $?)
 # environment
 PAPERSIZE = a4
+ 
 # environment
 DESKTOP_SESSION = ubuntu
 # default
@@ -27,7 +28,6 @@ XDG_SESSION_CLASS = user
 # environment
 XDG_SESSION_TYPE = x11
 # environment
- 
 VSCODE_LOG_NATIVE = false
 # automatic
 ?D = $(patsubst %/,%,$(dir $?))
@@ -50,7 +50,7 @@ VSCODE_NLS_CONFIG = {"locale":"zh-cn","availableLanguages":{"*":"zh-cn"},"_langu
 # environment
 _ = /usr/share/code/code
 # environment
-JOURNAL_STREAM = 8:55866
+JOURNAL_STREAM = 8:49645
 # environment
 XDG_CONFIG_DIRS = /etc/xdg/xdg-ubuntu:/etc/xdg
 # makefile (from 'Makefile', line 1)
@@ -72,9 +72,9 @@ DBUS_SESSION_BUS_ADDRESS = unix:path=/run/user/1000/bus
 # environment
 VSCODE_VERBOSE_LOGGING = true
 # environment
-MANAGERPID = 2907
+MANAGERPID = 2927
 # environment
-VSCODE_IPC_HOOK_EXTHOST = /run/user/1000/vscode-ipc-aea9fd56-df0f-4a0e-9a8f-e2cbfe056402.sock
+VSCODE_IPC_HOOK_EXTHOST = /run/user/1000/vscode-ipc-fa55cf2c-cde8-4ce1-bec7-68b0a5db474d.sock
 # environment
 LC_NAME = zh_CN.UTF-8
 # environment
@@ -92,7 +92,7 @@ GJS_DEBUG_OUTPUT = stderr
 # environment
 LSCOLORS = Gxfxcxdxbxegedabagacad
 # environment
-SESSION_MANAGER = local/yumin-ubuntu:@/tmp/.ICE-unix/3517,unix/yumin-ubuntu:/tmp/.ICE-unix/3517
+SESSION_MANAGER = local/yumin-ubuntu:@/tmp/.ICE-unix/3539,unix/yumin-ubuntu:/tmp/.ICE-unix/3539
 # environment
 XDG_RUNTIME_DIR = /run/user/1000
 # environment
@@ -106,7 +106,7 @@ VSCODE_LOG_STACK = false
 # environment
 VSCODE_CRASH_REPORTER_START_OPTIONS = {"companyName":"Microsoft","productName":"VSCode","submitURL":"appcenter://code?aid=fba07a4d-84bd-4fc8-a125-9640fc8ce171&uid=eb8421c5-21d7-4aa4-b5ce-762f85df26c1&iid=eb8421c5-21d7-4aa4-b5ce-762f85df26c1&sid=eb8421c5-21d7-4aa4-b5ce-762f85df26c1","uploadToServer":true}
 # environment
-INVOCATION_ID = 5c95d12d75764e5a98414023defa123f
+INVOCATION_ID = 67a0e4ea065e46b786b2c7da4f002e2f
 # default
 .FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell archives jobserver output-sync check-symlink load
 # environment
@@ -116,7 +116,7 @@ XDG_SESSION_DESKTOP = ubuntu
 # environment
 SSH_AUTH_SOCK = /run/user/1000/keyring/ssh
 # environment
-GIO_LAUNCHED_DESKTOP_FILE_PID = 1128497
+GIO_LAUNCHED_DESKTOP_FILE_PID = 265948
 # automatic
 %F = $(notdir $%)
 # environment
@@ -130,7 +130,7 @@ PWD = /home/yumin_zhang/Project/github/6.824
 # default
 .LOADED := 
 # environment
-SSH_AGENT_PID = 3482
+SSH_AGENT_PID = 3504
 # environment
 ORIGINAL_XDG_CURRENT_DESKTOP = ubuntu:GNOME
 # environment
@@ -258,7 +258,7 @@ LC_ADDRESS = zh_CN.UTF-8
 # environment
 LANG = C
 # environment
-VSCODE_PID = 1128497
+VSCODE_PID = 265948
 # environment
 _CE_CONDA = 
 # makefile (from 'Makefile', line 6)
@@ -462,6 +462,7 @@ check-all:
 	@./.check-build git://g.csail.mit.edu/6.824-golabs-2022 $(patsubst check-%,%,$@)
 
 # files hash-table stats:
+ 
 # Load=8/1024=1%, Rehash=0, Collisions=0/33=0%
 # VPATH Search Paths
 
@@ -474,8 +475,7 @@ check-all:
 
 # strcache performance: lookups = 33 / hit rate = 45%
 # hash-table stats:
- 
 # Load=18/8192=0%, Rehash=0, Collisions=1/33=3%
-# Finished Make data base on Thu Mar 24 14:36:41 2022
+# Finished Make data base on Mon Apr  4 10:08:13 2022
 
  

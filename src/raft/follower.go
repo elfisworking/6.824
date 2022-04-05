@@ -1,4 +1,5 @@
 package raft
+// has checked
 func (rf *Raft) AppendEntrisHandler(args * AppendEntirsArgs, reply * AppendEntirsReply) {
 	rf.lock("Append Entries Handler lock")
 	defer rf.unlock("Append Entires Handler unlock")
@@ -6,10 +7,7 @@ func (rf *Raft) AppendEntrisHandler(args * AppendEntirsArgs, reply * AppendEntir
 		rf.resetElectionTimer()
 	}
 	if args.Term > rf.currentTerm {
-		rf.currentTerm = args.Term
-		rf.votedFor = -1
-		// rf.persist()
-		rf.changeIdentity(Follower)
+		rf.reveivedLargerTerm(args.Term)
 	}
 	reply.Term = rf.currentTerm
 	reply.Success = true
@@ -32,7 +30,6 @@ func (rf *Raft) AppendEntrisHandler(args * AppendEntirsArgs, reply * AppendEntir
 			// 将绝对路径转化为follower的相对路径
 			relAppendIndex := rf.relatvieIndex(absAppendIndex)
 			rf.log = rf.log[:relAppendIndex]
-			// this is important
 			rf.persist()
 			rf.log = append(rf.log, args.Entrirs...) 
 			rf.persist()
@@ -48,13 +45,17 @@ func (rf *Raft) AppendEntrisHandler(args * AppendEntirsArgs, reply * AppendEntir
 		}
 		rf.lastApplied = rf.commitIndex
 	}
+	rf.done = false
 }
-
+// has checked
 func (rf *Raft) sendApplyMsg(index int) {
 	applyMsg := ApplyMsg{
 		CommandValid: true,
 		Command: rf.log[rf.relatvieIndex(index)].Command,
 		CommandIndex: index,
 	}
+	// for 2D if not unlock functon, it will cause deadblock
+	rf.unlock("send Apply Msg unlock")
 	rf.applyCh <- applyMsg
+	rf.lock("send Apply Msg lock")
 }
