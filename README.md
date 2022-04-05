@@ -1,3 +1,7 @@
+# 2022 MIT 6.824 
+finish lab2A lab2B lab2C lab2D
+```shell
+$ go test
 Test (2A): initial election ...
   ... Passed --   3.1  3   56   14356    0
 Test (2A): election after network failure ...
@@ -48,3 +52,4 @@ Test (2D): install snapshots (unreliable+crash) ...
   ... Passed --  72.5  3 1577  379583  411
 PASS
 ok      6.824/raft      505.034s
+```
